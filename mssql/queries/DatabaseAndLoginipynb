@@ -1,0 +1,2190 @@
+{
+    "metadata": {
+        "kernelspec": {
+            "name": "SQL",
+            "display_name": "SQL",
+            "language": "sql"
+        },
+        "language_info": {
+            "name": "sql",
+            "version": ""
+        }
+    },
+    "nbformat_minor": 2,
+    "nbformat": 4,
+    "cells": [
+        {
+            "cell_type": "code",
+            "source": [
+                "USE master;\n",
+                "\n",
+                "-- drop database\n",
+                "DROP DATABASE demo_database;\n",
+                "\n",
+                "-- drop user\n",
+                "DROP LOGIN demo_master;\n",
+                "DROP LOGIN demo_user;\n",
+                "DROP LOGIN demo_user_2;"
+            ],
+            "metadata": {
+                "azdata_cell_guid": "8ece936e-469f-46bf-9d1f-04e343a19d9a",
+                "language": "sql"
+            },
+            "outputs": [
+                {
+                    "output_type": "error",
+                    "evalue": "Msg 3701, Level 11, State 1, Line 4\nCannot drop the database 'demo_database', because it does not exist or you do not have permission.",
+                    "ename": "",
+                    "traceback": []
+                },
+                {
+                    "output_type": "error",
+                    "evalue": "Msg 15151, Level 16, State 1, Line 7\nCannot drop the login 'demo_master', because it does not exist or you do not have permission.",
+                    "ename": "",
+                    "traceback": []
+                },
+                {
+                    "output_type": "error",
+                    "evalue": "Msg 15151, Level 16, State 1, Line 8\nCannot drop the login 'demo_user', because it does not exist or you do not have permission.",
+                    "ename": "",
+                    "traceback": []
+                },
+                {
+                    "output_type": "error",
+                    "evalue": "Msg 15151, Level 16, State 1, Line 9\nCannot drop the login 'demo_user_2', because it does not exist or you do not have permission.",
+                    "ename": "",
+                    "traceback": []
+                },
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "Total execution time: 00:00:00.005"
+                    },
+                    "metadata": {}
+                }
+            ],
+            "execution_count": 2
+        },
+        {
+            "cell_type": "code",
+            "source": [
+                "-- No Database Selection Required\n",
+                "-- check database list\n",
+                "SELECT name, database_id, create_date  \n",
+                "FROM sys.databases;  "
+            ],
+            "metadata": {
+                "language": "sql",
+                "azdata_cell_guid": "fadee6ac-5260-4db5-aa70-7f7f319d5fee"
+            },
+            "outputs": [
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "(6 rows affected)"
+                    },
+                    "metadata": {}
+                },
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "Total execution time: 00:00:00.050"
+                    },
+                    "metadata": {}
+                },
+                {
+                    "output_type": "execute_result",
+                    "execution_count": 34,
+                    "data": {
+                        "application/vnd.dataresource+json": {
+                            "schema": {
+                                "fields": [
+                                    {
+                                        "name": "name"
+                                    },
+                                    {
+                                        "name": "database_id"
+                                    },
+                                    {
+                                        "name": "create_date"
+                                    }
+                                ]
+                            },
+                            "data": [
+                                {
+                                    "name": "master",
+                                    "database_id": "1",
+                                    "create_date": "2003-04-08 09:13:36.390"
+                                },
+                                {
+                                    "name": "tempdb",
+                                    "database_id": "2",
+                                    "create_date": "2024-01-21 08:58:17.140"
+                                },
+                                {
+                                    "name": "model",
+                                    "database_id": "3",
+                                    "create_date": "2003-04-08 09:13:36.390"
+                                },
+                                {
+                                    "name": "msdb",
+                                    "database_id": "4",
+                                    "create_date": "2023-01-25 11:15:47.897"
+                                },
+                                {
+                                    "name": "demo_database_1",
+                                    "database_id": "6",
+                                    "create_date": "2024-01-21 09:36:49.743"
+                                },
+                                {
+                                    "name": "demo_database_2",
+                                    "database_id": "7",
+                                    "create_date": "2024-01-21 09:36:50.203"
+                                }
+                            ]
+                        },
+                        "text/html": "<table><tr><th>name</th><th>database_id</th><th>create_date</th></tr><tr><td>master</td><td>1</td><td>2003-04-08 09:13:36.390</td></tr><tr><td>tempdb</td><td>2</td><td>2024-01-21 08:58:17.140</td></tr><tr><td>model</td><td>3</td><td>2003-04-08 09:13:36.390</td></tr><tr><td>msdb</td><td>4</td><td>2023-01-25 11:15:47.897</td></tr><tr><td>demo_database_1</td><td>6</td><td>2024-01-21 09:36:49.743</td></tr><tr><td>demo_database_2</td><td>7</td><td>2024-01-21 09:36:50.203</td></tr></table>"
+                    },
+                    "metadata": {}
+                }
+            ],
+            "execution_count": 34
+        },
+        {
+            "cell_type": "code",
+            "source": [
+                "-- No Database Selection Required\n",
+                "-- check user list\n",
+                "SELECT name\n",
+                "FROM sys.sql_logins;"
+            ],
+            "metadata": {
+                "language": "sql",
+                "azdata_cell_guid": "abfe6f61-d1d5-4507-9c4d-43a4f1404f37"
+            },
+            "outputs": [
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "(3 rows affected)"
+                    },
+                    "metadata": {}
+                },
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "Total execution time: 00:00:00.007"
+                    },
+                    "metadata": {}
+                },
+                {
+                    "output_type": "execute_result",
+                    "execution_count": 42,
+                    "data": {
+                        "application/vnd.dataresource+json": {
+                            "schema": {
+                                "fields": [
+                                    {
+                                        "name": "name"
+                                    }
+                                ]
+                            },
+                            "data": [
+                                {
+                                    "name": "sa"
+                                },
+                                {
+                                    "name": "##MS_PolicyEventProcessingLogin##"
+                                },
+                                {
+                                    "name": "##MS_PolicyTsqlExecutionLogin##"
+                                }
+                            ]
+                        },
+                        "text/html": "<table><tr><th>name</th></tr><tr><td>sa</td></tr><tr><td>##MS_PolicyEventProcessingLogin##</td></tr><tr><td>##MS_PolicyTsqlExecutionLogin##</td></tr></table>"
+                    },
+                    "metadata": {}
+                }
+            ],
+            "execution_count": 42
+        },
+        {
+            "cell_type": "code",
+            "source": [
+                "-- No Database Selection Required\n",
+                "-- create database\n",
+                "CREATE DATABASE demo_database_1;\n",
+                "CREATE DATABASE demo_database_2;"
+            ],
+            "metadata": {
+                "language": "sql",
+                "azdata_cell_guid": "198da0dd-f74d-42b3-8c5b-c84fa9a005bf",
+                "tags": []
+            },
+            "outputs": [
+                {
+                    "output_type": "error",
+                    "ename": "",
+                    "evalue": "Msg 1801, Level 16, State 3, Line 2\nDatabase 'demo_database_1' already exists. Choose a different database name.",
+                    "traceback": []
+                },
+                {
+                    "output_type": "error",
+                    "ename": "",
+                    "evalue": "Msg 1801, Level 16, State 3, Line 3\nDatabase 'demo_database_2' already exists. Choose a different database name.",
+                    "traceback": []
+                },
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "Total execution time: 00:00:00.006"
+                    },
+                    "metadata": {}
+                }
+            ],
+            "execution_count": 25
+        },
+        {
+            "cell_type": "code",
+            "source": [
+                "USE master;\n",
+                "\n",
+                "-- can create user (when inside the database)\n",
+                "CREATE LOGIN demo_master WITH PASSWORD = 'Demo8835013!';\n",
+                "CREATE USER demo_master FOR LOGIN demo_master;"
+            ],
+            "metadata": {
+                "language": "sql",
+                "azdata_cell_guid": "b02986cf-09f9-4675-b267-82b0018fb724",
+                "tags": []
+            },
+            "outputs": [
+                {
+                    "output_type": "error",
+                    "evalue": "Msg 15025, Level 16, State 1, Line 4\nThe server principal 'demo_master' already exists.",
+                    "ename": "",
+                    "traceback": []
+                },
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "Total execution time: 00:00:00.037"
+                    },
+                    "metadata": {}
+                }
+            ],
+            "execution_count": 11
+        },
+        {
+            "cell_type": "code",
+            "source": [
+                "USE demo_database_1;\n",
+                "\n",
+                "-- can create user (when inside the database)\n",
+                "CREATE LOGIN demo_user_1 WITH PASSWORD = 'Demo8835013!';\n",
+                "CREATE USER demo_user_1 FOR LOGIN demo_user_1;\n",
+                "\n",
+                "USE demo_database_2;\n",
+                "\n",
+                "-- can create user (when inside the database)\n",
+                "CREATE LOGIN demo_user_2 WITH PASSWORD = 'Demo8835013!';\n",
+                "CREATE USER demo_user_2 FOR LOGIN demo_user_2;"
+            ],
+            "metadata": {
+                "language": "sql",
+                "azdata_cell_guid": "e7bb936a-3d39-4d3f-9c73-7f7d7fa0e495",
+                "tags": []
+            },
+            "outputs": [
+                {
+                    "output_type": "error",
+                    "evalue": "Msg 15025, Level 16, State 1, Line 4\nThe server principal 'demo_user_1' already exists.",
+                    "ename": "",
+                    "traceback": []
+                },
+                {
+                    "output_type": "error",
+                    "evalue": "Msg 15025, Level 16, State 1, Line 10\nThe server principal 'demo_user_2' already exists.",
+                    "ename": "",
+                    "traceback": []
+                },
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "Total execution time: 00:00:00.025"
+                    },
+                    "metadata": {}
+                }
+            ],
+            "execution_count": 12
+        },
+        {
+            "cell_type": "code",
+            "source": [
+                "USE master;\n",
+                "\n",
+                "-- check login list (1)\n",
+                "SELECT name\n",
+                "FROM sys.sql_logins;\n",
+                "\n",
+                "-- check login list (2)\n",
+                "SELECT name, type_desc, create_date\n",
+                "FROM sys.server_principals\n",
+                "WHERE type_desc IN ('SQL_LOGIN', 'WINDOWS_LOGIN');"
+            ],
+            "metadata": {
+                "language": "sql",
+                "azdata_cell_guid": "1aba3760-9baa-4078-a67f-2e8be506a55a",
+                "tags": []
+            },
+            "outputs": [
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "(6 rows affected)"
+                    },
+                    "metadata": {}
+                },
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "(8 rows affected)"
+                    },
+                    "metadata": {}
+                },
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "Total execution time: 00:00:00.025"
+                    },
+                    "metadata": {}
+                },
+                {
+                    "output_type": "execute_result",
+                    "metadata": {},
+                    "execution_count": 16,
+                    "data": {
+                        "application/vnd.dataresource+json": {
+                            "schema": {
+                                "fields": [
+                                    {
+                                        "name": "name"
+                                    }
+                                ]
+                            },
+                            "data": [
+                                {
+                                    "name": "sa"
+                                },
+                                {
+                                    "name": "##MS_PolicyEventProcessingLogin##"
+                                },
+                                {
+                                    "name": "##MS_PolicyTsqlExecutionLogin##"
+                                },
+                                {
+                                    "name": "demo_user_1"
+                                },
+                                {
+                                    "name": "demo_user_2"
+                                },
+                                {
+                                    "name": "demo_master"
+                                }
+                            ]
+                        },
+                        "text/html": [
+                            "<table>",
+                            "<tr><th>name</th></tr>",
+                            "<tr><td>sa</td></tr>",
+                            "<tr><td>##MS_PolicyEventProcessingLogin##</td></tr>",
+                            "<tr><td>##MS_PolicyTsqlExecutionLogin##</td></tr>",
+                            "<tr><td>demo_user_1</td></tr>",
+                            "<tr><td>demo_user_2</td></tr>",
+                            "<tr><td>demo_master</td></tr>",
+                            "</table>"
+                        ]
+                    }
+                },
+                {
+                    "output_type": "execute_result",
+                    "metadata": {},
+                    "execution_count": 16,
+                    "data": {
+                        "application/vnd.dataresource+json": {
+                            "schema": {
+                                "fields": [
+                                    {
+                                        "name": "name"
+                                    },
+                                    {
+                                        "name": "type_desc"
+                                    },
+                                    {
+                                        "name": "create_date"
+                                    }
+                                ]
+                            },
+                            "data": [
+                                {
+                                    "name": "sa",
+                                    "type_desc": "SQL_LOGIN",
+                                    "create_date": "2003-04-08 09:10:35.460"
+                                },
+                                {
+                                    "name": "##MS_PolicyEventProcessingLogin##",
+                                    "type_desc": "SQL_LOGIN",
+                                    "create_date": "2023-01-25 11:15:52.660"
+                                },
+                                {
+                                    "name": "##MS_PolicyTsqlExecutionLogin##",
+                                    "type_desc": "SQL_LOGIN",
+                                    "create_date": "2023-01-25 11:15:52.663"
+                                },
+                                {
+                                    "name": "NT AUTHORITY\\SYSTEM",
+                                    "type_desc": "WINDOWS_LOGIN",
+                                    "create_date": "2024-01-21 08:58:17.370"
+                                },
+                                {
+                                    "name": "NT AUTHORITY\\NETWORK SERVICE",
+                                    "type_desc": "WINDOWS_LOGIN",
+                                    "create_date": "2024-01-21 08:58:17.370"
+                                },
+                                {
+                                    "name": "demo_user_1",
+                                    "type_desc": "SQL_LOGIN",
+                                    "create_date": "2024-01-21 09:44:58.657"
+                                },
+                                {
+                                    "name": "demo_user_2",
+                                    "type_desc": "SQL_LOGIN",
+                                    "create_date": "2024-01-21 09:52:14.900"
+                                },
+                                {
+                                    "name": "demo_master",
+                                    "type_desc": "SQL_LOGIN",
+                                    "create_date": "2024-01-21 09:52:21.923"
+                                }
+                            ]
+                        },
+                        "text/html": [
+                            "<table>",
+                            "<tr><th>name</th><th>type_desc</th><th>create_date</th></tr>",
+                            "<tr><td>sa</td><td>SQL_LOGIN</td><td>2003-04-08 09:10:35.460</td></tr>",
+                            "<tr><td>##MS_PolicyEventProcessingLogin##</td><td>SQL_LOGIN</td><td>2023-01-25 11:15:52.660</td></tr>",
+                            "<tr><td>##MS_PolicyTsqlExecutionLogin##</td><td>SQL_LOGIN</td><td>2023-01-25 11:15:52.663</td></tr>",
+                            "<tr><td>NT AUTHORITY\\SYSTEM</td><td>WINDOWS_LOGIN</td><td>2024-01-21 08:58:17.370</td></tr>",
+                            "<tr><td>NT AUTHORITY\\NETWORK SERVICE</td><td>WINDOWS_LOGIN</td><td>2024-01-21 08:58:17.370</td></tr>",
+                            "<tr><td>demo_user_1</td><td>SQL_LOGIN</td><td>2024-01-21 09:44:58.657</td></tr>",
+                            "<tr><td>demo_user_2</td><td>SQL_LOGIN</td><td>2024-01-21 09:52:14.900</td></tr>",
+                            "<tr><td>demo_master</td><td>SQL_LOGIN</td><td>2024-01-21 09:52:21.923</td></tr>",
+                            "</table>"
+                        ]
+                    }
+                }
+            ],
+            "execution_count": 16
+        },
+        {
+            "cell_type": "code",
+            "source": [
+                "USE master;\n",
+                "\n",
+                "-- check user list\n",
+                "SELECT name, type_desc, create_date\n",
+                "FROM sys.database_principals\n",
+                "WHERE type_desc = 'SQL_USER';\n",
+                "\n",
+                "USE demo_database_1;\n",
+                "\n",
+                "-- check user list\n",
+                "SELECT name, type_desc, create_date\n",
+                "FROM sys.database_principals\n",
+                "WHERE type_desc = 'SQL_USER';"
+            ],
+            "metadata": {
+                "language": "sql",
+                "azdata_cell_guid": "68e218bd-d70b-4bf9-869b-fd18506d7198"
+            },
+            "outputs": [
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "(6 rows affected)"
+                    },
+                    "metadata": {}
+                },
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "(5 rows affected)"
+                    },
+                    "metadata": {}
+                },
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "Total execution time: 00:00:00.057"
+                    },
+                    "metadata": {}
+                },
+                {
+                    "output_type": "execute_result",
+                    "metadata": {},
+                    "execution_count": 18,
+                    "data": {
+                        "application/vnd.dataresource+json": {
+                            "schema": {
+                                "fields": [
+                                    {
+                                        "name": "name"
+                                    },
+                                    {
+                                        "name": "type_desc"
+                                    },
+                                    {
+                                        "name": "create_date"
+                                    }
+                                ]
+                            },
+                            "data": [
+                                {
+                                    "name": "dbo",
+                                    "type_desc": "SQL_USER",
+                                    "create_date": "2003-04-08 09:10:19.600"
+                                },
+                                {
+                                    "name": "guest",
+                                    "type_desc": "SQL_USER",
+                                    "create_date": "2003-04-08 09:10:19.647"
+                                },
+                                {
+                                    "name": "INFORMATION_SCHEMA",
+                                    "type_desc": "SQL_USER",
+                                    "create_date": "2009-04-13 12:59:06.013"
+                                },
+                                {
+                                    "name": "sys",
+                                    "type_desc": "SQL_USER",
+                                    "create_date": "2009-04-13 12:59:06.013"
+                                },
+                                {
+                                    "name": "##MS_PolicyEventProcessingLogin##",
+                                    "type_desc": "SQL_USER",
+                                    "create_date": "2023-01-25 11:15:52.683"
+                                },
+                                {
+                                    "name": "demo_master",
+                                    "type_desc": "SQL_USER",
+                                    "create_date": "2024-01-21 09:56:27.870"
+                                }
+                            ]
+                        },
+                        "text/html": [
+                            "<table>",
+                            "<tr><th>name</th><th>type_desc</th><th>create_date</th></tr>",
+                            "<tr><td>dbo</td><td>SQL_USER</td><td>2003-04-08 09:10:19.600</td></tr>",
+                            "<tr><td>guest</td><td>SQL_USER</td><td>2003-04-08 09:10:19.647</td></tr>",
+                            "<tr><td>INFORMATION_SCHEMA</td><td>SQL_USER</td><td>2009-04-13 12:59:06.013</td></tr>",
+                            "<tr><td>sys</td><td>SQL_USER</td><td>2009-04-13 12:59:06.013</td></tr>",
+                            "<tr><td>##MS_PolicyEventProcessingLogin##</td><td>SQL_USER</td><td>2023-01-25 11:15:52.683</td></tr>",
+                            "<tr><td>demo_master</td><td>SQL_USER</td><td>2024-01-21 09:56:27.870</td></tr>",
+                            "</table>"
+                        ]
+                    }
+                },
+                {
+                    "output_type": "execute_result",
+                    "metadata": {},
+                    "execution_count": 18,
+                    "data": {
+                        "application/vnd.dataresource+json": {
+                            "schema": {
+                                "fields": [
+                                    {
+                                        "name": "name"
+                                    },
+                                    {
+                                        "name": "type_desc"
+                                    },
+                                    {
+                                        "name": "create_date"
+                                    }
+                                ]
+                            },
+                            "data": [
+                                {
+                                    "name": "dbo",
+                                    "type_desc": "SQL_USER",
+                                    "create_date": "2003-04-08 09:10:42.287"
+                                },
+                                {
+                                    "name": "guest",
+                                    "type_desc": "SQL_USER",
+                                    "create_date": "2003-04-08 09:10:42.317"
+                                },
+                                {
+                                    "name": "INFORMATION_SCHEMA",
+                                    "type_desc": "SQL_USER",
+                                    "create_date": "2009-04-13 12:59:11.717"
+                                },
+                                {
+                                    "name": "sys",
+                                    "type_desc": "SQL_USER",
+                                    "create_date": "2009-04-13 12:59:11.717"
+                                },
+                                {
+                                    "name": "demo_user_1",
+                                    "type_desc": "SQL_USER",
+                                    "create_date": "2024-01-21 09:57:12.537"
+                                }
+                            ]
+                        },
+                        "text/html": [
+                            "<table>",
+                            "<tr><th>name</th><th>type_desc</th><th>create_date</th></tr>",
+                            "<tr><td>dbo</td><td>SQL_USER</td><td>2003-04-08 09:10:42.287</td></tr>",
+                            "<tr><td>guest</td><td>SQL_USER</td><td>2003-04-08 09:10:42.317</td></tr>",
+                            "<tr><td>INFORMATION_SCHEMA</td><td>SQL_USER</td><td>2009-04-13 12:59:11.717</td></tr>",
+                            "<tr><td>sys</td><td>SQL_USER</td><td>2009-04-13 12:59:11.717</td></tr>",
+                            "<tr><td>demo_user_1</td><td>SQL_USER</td><td>2024-01-21 09:57:12.537</td></tr>",
+                            "</table>"
+                        ]
+                    }
+                }
+            ],
+            "execution_count": 18
+        },
+        {
+            "cell_type": "code",
+            "source": [
+                "USE master;\n",
+                "\n",
+                "-- GRANT CONNECTION to login\n",
+                "GRANT CONNECT SQL TO demo_master;\n",
+                "GRANT CONNECT SQL TO demo_user_1;\n",
+                "GRANT CONNECT SQL TO demo_user_2;"
+            ],
+            "metadata": {
+                "language": "sql",
+                "azdata_cell_guid": "4a9424e1-74f6-40a5-aee1-266e2cb892aa"
+            },
+            "outputs": [
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "Commands completed successfully."
+                    },
+                    "metadata": {}
+                },
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "Total execution time: 00:00:00.035"
+                    },
+                    "metadata": {}
+                }
+            ],
+            "execution_count": 20
+        },
+        {
+            "cell_type": "code",
+            "source": [
+                "USE demo_database_1;\n",
+                "\n",
+                "-- GRANT CONNECTION to user\n",
+                "GRANT CREATE PROCEDURE TO demo_user_1;\n",
+                "GRANT CREATE TABLE TO demo_user_1;\n",
+                "GRANT CREATE TABLE TO demo_user_1;\n",
+                "GRANT DELETE ON SCHEMA::dbo TO demo_user_1; -- use if necessary"
+            ],
+            "metadata": {
+                "language": "sql",
+                "azdata_cell_guid": "394f9566-64a7-4c81-a1ef-97479897575a",
+                "tags": []
+            },
+            "outputs": [
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "Commands completed successfully."
+                    },
+                    "metadata": {}
+                },
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "Total execution time: 00:00:00.009"
+                    },
+                    "metadata": {}
+                }
+            ],
+            "execution_count": 23
+        },
+        {
+            "cell_type": "code",
+            "source": [
+                "SELECT \n",
+                "    USER_NAME(grantee_principal_id) AS GranteeUser,\n",
+                "    USER_NAME(grantor_principal_id) AS GrantorUser,\n",
+                "    permission_name,\n",
+                "    state_desc\n",
+                "FROM sys.database_permissions;"
+            ],
+            "metadata": {
+                "language": "sql",
+                "azdata_cell_guid": "7a59fe59-a051-48b8-ab77-3a7e81596b72"
+            },
+            "outputs": [
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "(200 rows affected)"
+                    },
+                    "metadata": {}
+                },
+                {
+                    "output_type": "display_data",
+                    "data": {
+                        "text/html": "Total execution time: 00:00:00.011"
+                    },
+                    "metadata": {}
+                },
+                {
+                    "output_type": "execute_result",
+                    "metadata": {},
+                    "execution_count": 22,
+                    "data": {
+                        "application/vnd.dataresource+json": {
+                            "schema": {
+                                "fields": [
+                                    {
+                                        "name": "GranteeUser"
+                                    },
+                                    {
+                                        "name": "GrantorUser"
+                                    },
+                                    {
+                                        "name": "permission_name"
+                                    },
+                                    {
+                                        "name": "state_desc"
+                                    }
+                                ]
+                            },
+                            "data": [
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "VIEW ANY COLUMN ENCRYPTION KEY DEFINITION",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "VIEW ANY COLUMN MASTER KEY DEFINITION",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "dbo",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "CONNECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "demo_user_1",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "CONNECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "demo_user_1",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "CREATE PROCEDURE",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                },
+                                {
+                                    "GranteeUser": "public",
+                                    "GrantorUser": "dbo",
+                                    "permission_name": "SELECT",
+                                    "state_desc": "GRANT"
+                                }
+                            ]
+                        },
+                        "text/html": [
+                            "<table>",
+                            "<tr><th>GranteeUser</th><th>GrantorUser</th><th>permission_name</th><th>state_desc</th></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>VIEW ANY COLUMN ENCRYPTION KEY DEFINITION</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>VIEW ANY COLUMN MASTER KEY DEFINITION</td><td>GRANT</td></tr>",
+                            "<tr><td>dbo</td><td>dbo</td><td>CONNECT</td><td>GRANT</td></tr>",
+                            "<tr><td>demo_user_1</td><td>dbo</td><td>CONNECT</td><td>GRANT</td></tr>",
+                            "<tr><td>demo_user_1</td><td>dbo</td><td>CREATE PROCEDURE</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "<tr><td>public</td><td>dbo</td><td>SELECT</td><td>GRANT</td></tr>",
+                            "</table>"
+                        ]
+                    }
+                }
+            ],
+            "execution_count": 22
+        }
+    ]
+}
